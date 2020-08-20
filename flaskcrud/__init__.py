@@ -14,11 +14,13 @@ class Employee(db.Model):
     username=db.Column(db.String(100))
     email=db.Column(db.String(200))
     tel=db.Column(db.String(50))
+    title=db.Column(db.String(200))
 
-    def __init__(self,username,email,tel):
+    def __init__(self,username,email,tel,title):
         self.username=username
         self.email=email
         self.tel=tel
+        self.title=title
 
 @app.route('/')
 def index():
@@ -31,8 +33,9 @@ def insert():
         username=request.form['username']
         email= request.form['email']
         tel= request.form['tel']
+        title= request.form['title']
 
-    insertUser = Employee(username,email,tel)
+    insertUser = Employee(username,email,tel,title)
     db.session.add(insertUser)
     db.session.commit()
 
@@ -52,6 +55,12 @@ def update():
         updateUser.username=request.form['username']
         updateUser.email= request.form['email']
         updateUser.tel= request.form['tel']
+        updateUser.title= request.form['title']
         db.session.commit()
 
         return redirect(url_for('index'))
+@app.route('/search',methods=['POST'])
+def search():
+    find=request.form['find']
+    searchUser = Employee.query.filter(Employee.username.contains(find))
+    return render_template("index.html",employees=searchUser,find=find)
