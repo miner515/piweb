@@ -1,3 +1,6 @@
+#-*- coding: utf-8 -*-
+from gtts import gTTS
+from playsound import playsound
 from flask import Flask,render_template,redirect,url_for,request
 from flask_sqlalchemy import SQLAlchemy
 
@@ -64,3 +67,12 @@ def search():
     find=request.form['find']
     searchUser = Employee.query.filter(Employee.username.contains(find))
     return render_template("index.html",employees=searchUser,find=find)
+@app.route('/playmp3')
+def playmp3():
+    text = "고양이가 소리를 내려고합니다. 우리모드 스마트고양이를 응원합시다."
+    filename = "hellosmartcat.mp3"
+    tts = gTTS(text=text,lang='ko')
+    tts.save(filename)
+    playsound(filename)
+
+    return "소리를 냈습니다."
