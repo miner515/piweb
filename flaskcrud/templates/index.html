@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+<<<<<<< HEAD
     <h1>직원 검색 "{{txtsearch}}"</h1>
     <form action="/search" method="POST">
         <input type="text" name="txtsearch" placeholder="찾고자 하는 직원명을 입력하세요." style="width:300px;" value="{{txtsearch}}">
@@ -57,5 +58,69 @@ function fSound(){
     location.href = "/playmp3";
 }
 </script>
+=======
+    <h1>직원검색("{{textsearch}}")</h1>
+    <form action="/search" method="POST">
+    <input type="text"name="textsearch" placeholder="찾고자하는 직원명 입력" style="width:300px;" value="{{textsearch}}">
+    <input type="submit" value="검색">
+    </form>
+    <h1>직원리스트</h1>
+    {% for row in employee1 %}
+    {{row.id}},
+    {{row.username}},
+    {{row.jicwi}},
+    {{row.email}},
+    {{row.tel}}
+    <input type="button" value="삭제" onclick="fDel({{row.id}})">
+    <input type="button" value="수정" onclick="fEdit('{{row.id}}','{{row.username}}','{{row.jicwi}}','{{row.email}}','{{row.tel}}')">
+    <input type="button" value="말하기" onclick="fSound()">
+    <br>
+    {% endfor %}
+
+    <h1>직원추가</h1>
+    <form action="/insert" method="POST">
+
+    직원명:<input type="text" name="username"><br>
+    직위명:<input type="text" name="jicwi"><br>
+    이메일:<input type="text" name="email"><br>
+    전화번호:<input type="text" name="tel"><br>
+    <input type="submit" value="저장">
+
+    </form>
+    <h1>직원수정</h1>
+    <form name="frmEdit" action="/update" method="POST">
+        직원아이디:<input type="text" name="id" readonly><br>
+        직원명:<input type="text" name="username"><br>
+        직위명:<input type="text" name="jicwi"><br>
+        이메일:<input type="text" name="email"><br>
+        전화번호:<input type="text" name="tel"><br>
+        <input type="submit" value="수정">
+    
+        </form>
+
+    <script>
+        function fDel(uid){
+            if(confirm(uid+" remove?")==false)return;
+            location.href='/delete/'+uid;
+
+        }
+        function fEdit(id,username,jicwi,email,tel){
+            var frm= document.frmEdit;
+            frm.id.value=id;
+            frm.username.value=username;
+            frm.jicwi.value=jicwi;
+            frm.email.value=email;
+            frm.tel.value=tel;
+
+        }
+        function fSound(){
+            location.href="/playmp3"
+        }
+
+    </script>
+
+    
+    
+>>>>>>> 1b5a790aa395cc5dc141bf3b66ff3ee8523cee06
 </body>
 </html>
